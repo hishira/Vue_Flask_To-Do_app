@@ -1,30 +1,46 @@
-from flask import Flask,escape,request, json
-import database_connect
+from flask import Flask,escape,request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS,cross_origin
 
+import database_connect
+import os
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+from models import Task
 
 @app.route('/',methods=['GET'])
 def getTasks():
-    database_connect.makeConnection()
-    records = database_connect.makeQuerry('select * from zadania')
-    response =  json.jsonify(records)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    try:
+    	tasks = Task.query.all()
+    	response = jsonify([e.serialize() for e in tasks])
+    	return response
+    except Exception as e:
+    	return (str(e))
 
 @app.route('/removeTask/<id>',methods=['POST'])
 def removeTask(id):
-	database_connect.removeTask("delete from zadania where zadanie_id='"+id+"'")
-	records = database_connect.makeQuerry('select * from zadania')
-	response = json.jsonify(records)
-	response.headers.add('Access-Control-Allow-Origin',"*")
-	return response
+	try:
+		Task.query.filter_by(zadanie_id=id).delete()
+		db.session.commit()
+		tasks = Task.query.all()
+		response = jsonify([e.serialize() for e in tasks])
+		return response
+	except Exception as e:
+		return (str(e))
 
 @app.route('/addTask',methods=['POST'])
 def addTask():
-	requestString = request.data.decode('UTF-8')
-	database_connect.addTask("""insert into zadania(tresc_zadania) values ('"""+requestString+"""')""")
-	records = database_connect.makeQuerry('select * from zadania')
-	response = json.jsonify(records)
-	response.headers.add('Access-Control-Allow-Origin',"*")
-	return response
+	try:
+		requestString = request.data.decode('UTF-8')
+		task = Task(tresc_zadania=requestString)
+		db.session.add(task)
+		db.session.commit()
+		return "Add task"
+	except Exception as e:
+		return (str(e))
+

@@ -34,25 +34,33 @@ export default {
         /* eslint-disable no-mixed-spaces-and-tabs */
         getTaskMessage() {
             let text = document.querySelector('textarea').value
-            fetch('http://127.0.0.1:5000/addTask', {
-                method: "POST",
-                mode: 'no-cors', // no-cors, *cors, same-origin
-                cache: 'no-cache',
-                credentials: 'same-origin', // include, *same-origin, omit
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(text)
-            })
-            let vm = this
-            fetch(`http://127.0.0.1:5000/`)
-                .then(dane => dane.json())
-                .then(dane => {
-                	vm.$store.state.allTask = dane
-                })
-            this.$store.state.modalAppear = false
+            if (text === "") {
+                this.$store.state.modalAppear = false
 
-           
+            } else {
+                fetch('http://127.0.0.1:5000/addTask', {
+                    method: "POST",
+                    mode: 'no-cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache',
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(text)
+                })
+
+                let vm = this
+                fetch(`http://127.0.0.1:5000/`)
+                    .then(dane => dane.json())
+                    .then(dane => {
+                        console.log(dane)
+                        vm.$store.state.allTask = dane
+                    })
+                event.preventDefault()
+                this.$store.state.modalAppear = false
+                document.querySelector('textarea').value = ""
+            }
+
         },
         closeModal() {
             this.$store.state.modalAppear = false

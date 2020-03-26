@@ -2,7 +2,7 @@
     <div class='center-modal'>
         <section class="hero is-succes is-flex">
             <div>
-                <div v-for="item in getTasks" :key="item[0]" class='card is-medium'>
+                <div v-for="item in getTasks" :key="item['zadanie_id']" class='card is-medium'>
                     <header class='card-header'>
                         <p class='card-header-title'>
                             Zadanie
@@ -15,10 +15,10 @@
                     </header>
                     <div class='card-content'>
                         <div class='content'>
-                            {{item[1]}}
+                            {{item['tresc_zadania']}}
                         </div>
                     </div>
-                    <Buttons :taskid='item[0]' @taskRemove='deleteTask'  />
+                    <Buttons :taskid='item["zadanie_id"]' @taskRemove='deleteTask' />
                 </div>
             </div>
         </section>
@@ -31,14 +31,15 @@ export default {
     name: 'Modal',
     components: {
         Buttons
-    },props:{
-        additionalTask:{
+    },
+    props: {
+        additionalTask: {
             type: Array,
             required: false
         }
     },
-    computed:{
-        getTasks(){
+    computed: {
+        getTasks() {
             return this.$store.state.allTask
         }
     },
@@ -52,7 +53,9 @@ export default {
             console.log(taskId)
             let vm = this
             //const apiURL = `http://127.0.0.1:5000/removeTask/${taskId}`
-            fetch(`http://127.0.0.1:5000/removeTask/${taskId}`, { method: "POST" })
+            fetch(`http://127.0.0.1:5000/removeTask/${taskId}`, {
+                    method: "POST"
+                })
                 .then(dane => dane.json())
                 .then(dane => {
                     vm.tasks = dane
@@ -65,6 +68,7 @@ export default {
         fetch('http://127.0.0.1:5000/')
             .then(data => data.json())
             .then(data => {
+                console.log(data)
                 vm.tasks = data
                 vm.$store.state.allTask = data
             })
@@ -73,10 +77,9 @@ export default {
 }
 </script>
 <style scoped>
-.center-modal {
-    
-}
-.card{
+.center-modal {}
+
+.card {
     width: 25rem;
     border-radius: 15px;
 }
