@@ -48,15 +48,32 @@ export default {
                     },
                     body: JSON.stringify(text)
                 })
-
                 let vm = this
-                fetch(`http://127.0.0.1:5000/`)
-                    .then(dane => dane.json())
-                    .then(dane => {
-                        console.log(dane)
-                        vm.$store.state.allTask = dane
-                    })
-                event.preventDefault()
+
+                let ddd = async() => {
+                    /* eslint-disable  */
+                    let ggg = []
+                    let old_length = vm.$store.state.allTask.length
+                    while(true){
+                        let bbb = 0
+                        ggg = await fetch(`http://127.0.0.1:5000/`).then(data=>data.json())
+                        bbb = ggg.length
+                        if(old_length !== 0){
+                            if(bbb !== old_length)
+                                break
+                        }
+                        if(old_length === 0){
+                            if(ggg.length !== 0 )
+                                break
+                        }
+                        console.log(ggg)
+                    }
+                    vm.$store.state.allTask = ggg
+                }
+
+                ddd()
+                //console.log(getjson)
+                //this.$store.state.allTask = getjson
                 this.$store.state.modalAppear = false
                 document.querySelector('textarea').value = ""
             }
