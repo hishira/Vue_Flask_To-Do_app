@@ -31,8 +31,8 @@ RUn apt-get update
 RUN apt-get install -y postgresql-12 postgresql-client-12 postgresql-contrib-12 gcc python3-dev libpq-dev
 USER postgres
 RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-    createdb -O docker docker 
+    psql --command "CREATE USER michal WITH SUPERUSER PASSWORD 'michal';" &&\
+    createdb -O michal michal 
 USER root
 RUN apt-get install -y vim
 RUN pip3 install psycopg2

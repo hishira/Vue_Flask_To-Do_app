@@ -18,7 +18,7 @@
                             {{item['tresc_zadania']}}
                         </div>
                     </div>
-                    <Buttons :taskid='item["zadanie_id"]' @taskRemove='deleteTask' />
+                    <Buttons :taskid='item["zadanie_id"]' @taskRemove='deleteTask' @updateTask='updatetask' />
                 </div>
             </div>
         </section>
@@ -62,6 +62,10 @@ export default {
                     vm.$store.state.allTask = dane
                 })
         },
+        updatetask(taksID){
+            console.log(taksID)
+            this.$emit('taskToUpdate',taksID)
+        }
     },
     created() {
         let vm = this

@@ -23,12 +23,13 @@
         </div>
         <div class="hero-body is-fluid">
             <div class="container">
-                <Modal />
+                <Modal @taskToUpdate='updateTask' />
             </div>
             <div class='container'>
                 <button class='button is-success' @click='addTask'>Dodaj zadanie</button>
             </div>
             <TaskModal :ifAdd='ifModal'  />
+            <UpdateModal :ifUpdate='ifUpdateModal' :stringToUpdate='getTaskToUpdate' :taskId='getTaskID' />
         </div>
         <div class="hero-foot footer-margin">
             <div class="container has-text-centered ">
@@ -40,20 +41,31 @@
 <script>
 import Modal from './Modal.vue'
 import TaskModal from './AddTaskModal.vue'
-
+import UpdateModal from './UpdateTaskModal.vue'
 export default {
     name: 'MainView',
     components: {
         Modal,
-        TaskModal
+        TaskModal,
+        UpdateModal
     },
     data(){
       return{
-        
+        taskToUpdate: "",
+        taskID: Number.MIN_VALUE
       }
     },computed:{
       ifModal(){
         return this.$store.state.modalAppear
+    },
+    ifUpdateModal(){
+        return this.$store.state.updateModalAppear
+    },
+    getTaskToUpdate(){
+        return this.taskToUpdate
+    },
+    getTaskID(){
+        return this.taskID
     }
   },
     methods:{
@@ -62,12 +74,22 @@ export default {
       },
       methodForClose(ee){
         this.$store.state.modalAppear = ee;
+      },
+      updateTask(taskId){
+        for (let i of this.$store.state.allTask ){
+            if(i['zadanie_id'] === taskId){
+                this.taskToUpdate = i['tresc_zadania']
+                this.taskID = taskId
+                break;
+            }
+        }
+        this.$store.state.updateModalAppear = true;
       }
     }
 
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 .hero-body {
     flex-direction: column;

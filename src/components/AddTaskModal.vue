@@ -1,8 +1,11 @@
 <template>
     <div class='addTaskModal' v-show='ifAdd'>
         <div class='container'>
-            <div class='dodaj'>Dodaj zadanie</div>
-            <a class="delete" @click='closeModal'></a>
+            <div class='container upper-panel'>
+                <div></div>
+                <div class='dodaj'>Dodaj zadanie</div>
+                <a class="delete" @click='closeModal'></a>
+            </div>
             <div class='field'>
                 <div class='control padding-text-area'>
                     <textarea class='textarea has-fixed-size' placeholder='Max 5 rows of tasks' rows='7'></textarea>
@@ -50,20 +53,20 @@ export default {
                 })
                 let vm = this
 
-                let ddd = async() => {
-                    /* eslint-disable  */
+                let ddd = async () => {
+                    /* eslint-disable */
                     let ggg = []
                     let old_length = vm.$store.state.allTask.length
-                    while(true){
+                    while (true) {
                         let bbb = 0
-                        ggg = await fetch(`http://127.0.0.1:5000/`).then(data=>data.json())
+                        ggg = await fetch(`http://127.0.0.1:5000/`).then(data => data.json())
                         bbb = ggg.length
-                        if(old_length !== 0){
-                            if(bbb !== old_length)
+                        if (old_length !== 0) {
+                            if (bbb !== old_length)
                                 break
                         }
-                        if(old_length === 0){
-                            if(ggg.length !== 0 )
+                        if (old_length === 0) {
+                            if (ggg.length !== 0)
                                 break
                         }
                         console.log(ggg)
@@ -100,13 +103,21 @@ export default {
     padding: .5rem;
 }
 
+.delete {
+    //align-self: center;
+
+}
+.upper-panel{
+    display: flex;
+    justify-content: space-between;
+}
+
 textarea {
     border: none;
 }
 
 .ohoho {
     margin-top: 1rem;
-    border: 2px solid red;
     width: 25%;
     margin-left: auto;
     margin-right: auto;
