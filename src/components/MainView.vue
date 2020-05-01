@@ -23,13 +23,20 @@
         </div>
         <div class="hero-body is-fluid">
             <div class="container">
-                <Modal @taskToUpdate='updateTask' />
+                <Modal @taskToUpdate='updateTask' :currentSite='currentSite' :lastSite='lastSite'/>
             </div>
+            <TaskModal :ifAdd='ifModal' />
+            <UpdateModal :ifUpdate='ifUpdateModal' :stringToUpdate='getTaskToUpdate' :taskId='getTaskID' />
+            <nav class="pagination" role="navigation" aria-label="pagination">
+                <a class="pagination-previous" style='background-color:azure' @click='previousPage'>Previous</a>
+                <a class="pagination-next"  style='background-color:azure'  @click='nextPage'>Next page</a>
+                
+            </nav>
+        </div>
+        <div class="container">
             <div class='container'>
                 <button class='button is-success' @click='addTask'>Dodaj zadanie</button>
             </div>
-            <TaskModal :ifAdd='ifModal'  />
-            <UpdateModal :ifUpdate='ifUpdateModal' :stringToUpdate='getTaskToUpdate' :taskId='getTaskID' />
         </div>
         <div class="hero-foot footer-margin">
             <div class="container has-text-centered ">
@@ -49,53 +56,76 @@ export default {
         TaskModal,
         UpdateModal
     },
-    data(){
-      return{
-        taskToUpdate: "",
-        taskID: Number.MIN_VALUE
-      }
-    },computed:{
-      ifModal(){
-        return this.$store.state.modalAppear
-    },
-    ifUpdateModal(){
-        return this.$store.state.updateModalAppear
-    },
-    getTaskToUpdate(){
-        return this.taskToUpdate
-    },
-    getTaskID(){
-        return this.taskID
-    }
-  },
-    methods:{
-      addTask(){
-        this.$store.state.modalAppear = true;
-      },
-      methodForClose(ee){
-        this.$store.state.modalAppear = ee;
-      },
-      updateTask(taskId){
-        for (let i of this.$store.state.allTask ){
-            if(i['zadanie_id'] === taskId){
-                this.taskToUpdate = i['tresc_zadania']
-                this.taskID = taskId
-                break;
-            }
+    data() {
+        return {
+            taskToUpdate: "",
+            taskID: Number.MIN_VALUE,
+            lastSite: 0,
+            currentSite: 1,
+            maxTaskPerSite: 2,
         }
-        this.$store.state.updateModalAppear = true;
-      }
+    },
+    computed: {
+        ifModal() {
+            return this.$store.state.modalAppear
+        },
+        ifUpdateModal() {
+            return this.$store.state.updateModalAppear
+        },
+        getTaskToUpdate() {
+            return this.taskToUpdate
+        },
+        getTaskID() {
+            return this.taskID
+        }
+    },
+    methods: {
+        addTask() {
+            this.$store.state.modalAppear = true;
+        },nextPage(){
+            if(this.lastSite < this.$store.state.taskLength){
+                this.lastSite+=1
+                this.currentSite+=1
+        }
+        },previousPage(){
+            if (this.lastSite - 1 >= 0){
+                this.lastSite-=1
+                this.currentSite-=1
+            }
+        },
+        methodForClose(ee) {
+            this.$store.state.modalAppear = ee;
+        },
+        updateTask(taskId) {
+            for (let i of this.$store.state.allTask) {
+                if (i['zadanie_id'] === taskId) {
+                    this.taskToUpdate = i['tresc_zadania']
+                    this.taskID = taskId
+                    break;
+                }
+            }
+            this.$store.state.updateModalAppear = true;
+        }
     }
 
 }
 </script>
-
 <style scoped>
 .hero-body {
     flex-direction: column;
+    //max-height: 2rem;
+    //min-height: 2rem;
+    height: 70%;
+    minwidht: 100%;
+
+    right: 50%;
     box-sizing: border-box;
     margin: 0;
+    border: 2px solid red;
+
 }
+
+.second {}
 
 .hero-head {
     //border-bottom: 1px solid #615e61;

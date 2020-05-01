@@ -36,11 +36,19 @@ export default {
         additionalTask: {
             type: Array,
             required: false
+        },
+        lastSite: {
+            type:Number,
+            requred: true
+        },
+        currentSite:{
+            type:Number,
+            requried: true
         }
     },
     computed: {
         getTasks() {
-            return this.$store.state.allTask
+            return this.$store.state.allTask.slice(this.$props.lastSite,this.$props.currentSite+1)
         }
     },
     data() {
@@ -60,6 +68,7 @@ export default {
                 .then(dane => {
                     vm.tasks = dane
                     vm.$store.state.allTask = dane
+                    vm.$store.state.taskLength = dane.length -1
                 })
         },
         updatetask(taksID){
@@ -75,14 +84,18 @@ export default {
                 console.log(data)
                 vm.tasks = data
                 vm.$store.state.allTask = data
+                vm.$store.state.taskLength = data.length -1
             })
     }
 
 }
 </script>
 <style scoped>
-.center-modal {}
-
+.center-modal {
+}
+.hero{
+    position :relative;
+}
 .card {
     width: 25rem;
     border-radius: 15px;

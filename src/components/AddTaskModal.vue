@@ -72,6 +72,7 @@ export default {
                         console.log(ggg)
                     }
                     vm.$store.state.allTask = ggg
+                    vm.$store.state.taskLength = ggg.length -1
                 }
 
                 ddd()

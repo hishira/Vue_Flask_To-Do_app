@@ -8,5 +8,6 @@ export default new Vuex.Store({
 		allTask: [],
 		modalAppear: false,
 		updateModalAppear: false,
+		taskLength: 0
 	}
 })
