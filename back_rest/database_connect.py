@@ -2,10 +2,18 @@ import psycopg2
 
 obj = {}
 
+
 def makeConnection():
     try:
-        obj.update({"connection" : psycopg2.connect(user='michal',password='michal',host='localhost',database='michal')})
-        obj.update({"cursor" : obj['connection'].cursor()})
+        obj.update({
+            "connection":
+            psycopg2.connect(user='postgres',
+                             password='michal',
+                             host='localhost',
+                             port=5432,
+                             database='postgres')
+        })
+        obj.update({"cursor": obj['connection'].cursor()})
     except:
         print("Blad")
 
@@ -19,12 +27,14 @@ def makeQuerry(querryString):
     else:
         return None
 
+
 def removeTask(querryString):
     if obj['connection']:
         obj['cursor'].execute(querryString)
         obj['connection'].commit()
     else:
         return None
+
 
 def addTask(querryString):
     print(obj.keys())
