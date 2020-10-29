@@ -15,12 +15,12 @@
       </nav>
     </div>
     <div class="hero-body is-fluid">
-      <div class="container">
+      <div class="cnttmp">
         <Modal @taskToUpdate="updateTask" :currentSite="currentSite" :lastSite="lastSite" />
       </div>
       <TaskModal :ifAdd="ifModal" />
       <UpdateModal :ifUpdate="ifUpdateModal" :stringToUpdate="getTaskToUpdate" :taskId="getTaskID" />
-      <nav v-show="checkLength > 0" class="pagination" role="navigation" aria-label="pagination">
+      <nav v-show="checkLength > 1" class="pagination" role="navigation" aria-label="pagination">
         <a class="pagination-previous" style="background-color:azure" @click="previousPage">Previous</a>
         <a class="pagination-next" style="background-color:azure" @click="nextPage">Next page</a>
       </nav>
@@ -136,5 +136,9 @@ export default {
 .navbar-item{
   margin-left: .5rem;
 
+}
+.cnttmp{
+  width: 100%;
+  margin-bottom: 2.5rem;
 }
 </style>

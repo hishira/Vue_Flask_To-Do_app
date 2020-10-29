@@ -5,15 +5,10 @@
         <div v-for="item in getTasks" :key="item['_id']" class="card is-medium">
           <header class="card-header">
             <p class="card-header-title">Zadanie</p>
-            <a class="card-header-icon" aria-label="more-options">
-              <span class="icon">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </a>
           </header>
           <div class="card-content">
             <div class="content">
-              {{ item["tresc_zadania"] }}
+              {{ item['tresc_zadania'] }}
             </div>
           </div>
           <Buttons
@@ -81,7 +76,9 @@ export default {
       try {
         let data = await fetch("http://127.0.0.1:5000/", {
           method: "GET",
-        }).then((response) => response.json());
+        }).then((response) =>{ 
+          console.log(response)
+          return response.json()});
         if (data === false) throw new Error("error");
         console.log(data);
         this.$data.loading = true;
@@ -101,12 +98,20 @@ export default {
 </script>
 <style scoped>
 .center-modal {
+  width: 100%;
+  padding: .5rem;
 }
 .hero {
   position: relative;
 }
 .card {
-  width: 25rem;
-  border-radius: 15px;
+  border-radius: 8px;
+  padding: .5rem;
+  margin-top: 1rem;
+}
+.card-header-title{
+  justify-content: center;
+}
+.card-content{
 }
 </style>

@@ -15,9 +15,7 @@ def getTasks():
         result = []
         for i in tasks.find():
             result.append({"_id":str(i['_id']),"tresc_zadania":i['tresc_zadania']})
-        print(result)
         response =  jsonify(result) 
-        print(response)
         return response
     except Exception as e:
         return (str(e))
@@ -39,6 +37,8 @@ def removeTask(id):
 def addTask():
     try:
         requestString = request.data.decode('UTF-8')
+        requestString = requestString.replace('"','')
+        print(requestString)
         tasks = mongo.db.Task
         tasks.insert({'tresc_zadania':requestString})
         return "Add task"

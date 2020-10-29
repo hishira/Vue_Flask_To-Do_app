@@ -95,6 +95,7 @@ export default {
   background-color: lightgrey;
   width: 50%;
   border-radius: 5px;
+  z-index: 200;
 }
 .delete {
   margin: 0.8rem;
