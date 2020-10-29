@@ -13,7 +13,7 @@ export default {
     name: "Buttons",
     props: {
         taskid: {
-            type: Number,
+            type: String,
             required: true
         }
     },

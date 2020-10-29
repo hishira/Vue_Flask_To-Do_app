@@ -1,8 +1,8 @@
 from flask import Flask, escape, request, jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS
+from bson.objectid import ObjectId
 import os
-
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/ToDoApp"
 mongo = PyMongo(app)
@@ -22,19 +22,19 @@ def getTasks():
     except Exception as e:
         return (str(e))
 
-'''
+def getTasksHelper(tasks):
+    return jsonify([{"_id":str(i['_id']),"tresc_zadania":i['tresc_zadania']} for i in tasks])
+
 @app.route('/removeTask/<id>', methods=['POST'])
 def removeTask(id):
     try:
-        Task.query.filter_by(zadanie_id=id).delete()
-        db.session.commit()
-        tasks = Task.query.all()
-        response = jsonify([e.serialize() for e in tasks])
-        return response
+        tasks = mongo.db.Task
+        x = tasks.delete_one({"_id":ObjectId(id)})
+        return getTasksHelper(tasks.find())
     except Exception as e:
         return (str(e))
 
-'''
+
 @app.route('/addTask', methods=['POST'])
 def addTask():
     try:
