@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/ToDoApp"
 mongo = PyMongo(app)
 CORS(app)
+
 @app.route('/', methods=['GET'])
 def getTasks():
     try:
@@ -33,19 +34,18 @@ def removeTask(id):
     except Exception as e:
         return (str(e))
 
-
+'''
 @app.route('/addTask', methods=['POST'])
 def addTask():
     try:
         requestString = request.data.decode('UTF-8')
-        task = Task(tresc_zadania=requestString)
-        db.session.add(task)
-        db.session.commit()
+        tasks = mongo.db.Task
+        tasks.insert({'tresc_zadania':requestString})
         return "Add task"
     except Exception as e:
         return (str(e))
 
-
+'''
 @app.route('/update/<id>', methods=['POST'])
 def update(id):
     try:
