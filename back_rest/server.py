@@ -1,28 +1,27 @@
 from flask import Flask, escape, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS, cross_origin
-import database_connect
+from flask_pymongo import PyMongo
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-from models import Task
-
-
+app.config["MONGO_URI"] = "mongodb://localhost:27017/ToDoApp"
+mongo = PyMongo(app)
+CORS(app)
 @app.route('/', methods=['GET'])
 def getTasks():
     try:
-        tasks = Task.query.all()
-        response = jsonify([e.serialize() for e in tasks])
+        tasks = mongo.db.Task
+        result = []
+        for i in tasks.find():
+            result.append({"_id":str(i['_id']),"tresc_zadania":i['tresc_zadania']})
+        print(result)
+        response =  jsonify(result) 
+        print(response)
         return response
     except Exception as e:
         return (str(e))
 
-
+'''
 @app.route('/removeTask/<id>', methods=['POST'])
 def removeTask(id):
     try:
@@ -57,3 +56,4 @@ def update(id):
         return "Update task"
     except Exception as e:
         return (str(e))
+'''

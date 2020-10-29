@@ -15,3 +15,7 @@ public/
 .deploy*/
 src/_drafts
 package-lock.json
+.vscode/
+coverage/
+/src/components/.metals/
+/back_rest/__pycache__/
