@@ -1,6 +1,6 @@
 <template>
     <footer class='card-footer'>
-        <a class='card-footer-item'>
+        <a class='card-footer-item' @click='updateTask'>
             Zaaktualizuj
         </a>
         <a class='card-footer-item' @click='deleteClick'>
@@ -20,6 +20,9 @@ export default {
     methods: {
         deleteClick() {
             this.$emit('taskRemove', this.$props.taskid)
+        },
+        updateTask(){
+            this.$emit('updateTask',this.$props.taskid)
         }
     }
 }
