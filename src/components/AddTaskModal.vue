@@ -8,7 +8,11 @@
       </div>
       <div class="field">
         <div class="control padding-text-area">
-          <textarea class="textarea has-fixed-size" placeholder="Max 5 rows of tasks" rows="7"></textarea>
+          <textarea
+            class="textarea has-fixed-size"
+            placeholder="Max 5 rows of tasks"
+            rows="7"
+          ></textarea>
         </div>
       </div>
       <div class="field ohoho">
@@ -25,12 +29,12 @@ export default {
   props: {
     ifAdd: {
       Type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      huj: []
+      huj: [],
     };
   },
   methods: {
@@ -46,9 +50,9 @@ export default {
           cache: "no-cache",
           credentials: "same-origin", // include, *same-origin, omit
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(text)
+          body: JSON.stringify(text),
         });
         let vm = this;
 
@@ -58,7 +62,7 @@ export default {
           let old_length = vm.$store.state.allTask.length;
           while (true) {
             let bbb = 0;
-            ggg = await fetch(`http://127.0.0.1:5000/`).then(data =>
+            ggg = await fetch(`http://127.0.0.1:5000/`).then((data) =>
               data.json()
             );
             bbb = ggg.length;
@@ -80,8 +84,8 @@ export default {
     },
     closeModal() {
       this.$store.state.modalAppear = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -90,24 +94,24 @@ export default {
   top: 20%;
   background-color: lightgrey;
   width: 50%;
-  height: 40%;
   border-radius: 5px;
-  overflow: hidden;
+  z-index: 200;
+}
+.delete {
+  margin: 0.8rem;
 }
 
 .dodaj {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
-
-.delete {
-  //align-self: center;
-}
 .upper-panel {
   display: flex;
   justify-content: space-between;
 }
-
+.button {
+  margin-bottom: 1.5rem;
+}
 textarea {
   border: none;
 }
@@ -124,7 +128,7 @@ textarea {
 }
 
 .padding-text-area {
-  padding: 0 0.5rem 0 0.5rem;
+  padding: 0.8rem;
   box-sizing: border-box;
 }
 </style>

@@ -2,7 +2,7 @@
   <section class="hero is-primary is-fullheight is-flex">
     <div class="hero-head">
       <nav class="navbar">
-        <div class="container">
+        <div class="">
           <div class="navbar-brand">
             <a class="navbar-item">
               <img
@@ -11,22 +11,16 @@
               />
             </a>
           </div>
-          <div id="nav-menu" class="navbar-menu is-flex">
-            <div class="navbar-end">
-              <a class="navbar-item is-active">Home</a>
-              <a class="navbar-item">Other</a>
-            </div>
-          </div>
         </div>
       </nav>
     </div>
     <div class="hero-body is-fluid">
-      <div class="container">
+      <div class="cnttmp">
         <Modal @taskToUpdate="updateTask" :currentSite="currentSite" :lastSite="lastSite" />
       </div>
       <TaskModal :ifAdd="ifModal" />
       <UpdateModal :ifUpdate="ifUpdateModal" :stringToUpdate="getTaskToUpdate" :taskId="getTaskID" />
-      <nav v-show="checkLength > 0" class="pagination" role="navigation" aria-label="pagination">
+      <nav v-show="checkLength > 1" class="pagination" role="navigation" aria-label="pagination">
         <a class="pagination-previous" style="background-color:azure" @click="previousPage">Previous</a>
         <a class="pagination-next" style="background-color:azure" @click="nextPage">Next page</a>
       </nav>
@@ -65,7 +59,7 @@ export default {
   data() {
     return {
       taskToUpdate: "",
-      taskID: Number.MIN_VALUE,
+      taskID: "",
       lastSite: 0,
       currentSite: 1,
       maxTaskPerSite: 2
@@ -109,7 +103,7 @@ export default {
     },
     updateTask(taskId) {
       for (let i of this.$store.state.allTask) {
-        if (i["zadanie_id"] === taskId) {
+        if (i["_id"] === taskId) {
           this.taskToUpdate = i["tresc_zadania"];
           this.taskID = taskId;
           break;
@@ -125,7 +119,6 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
   margin: 0;
-  border: 2px solid black;
 }
 .button-class {
   padding: 2rem;
@@ -139,5 +132,13 @@ export default {
 .footer-margin {
   padding: -1rem;
   box-sizing: border-box;
+}
+.navbar-item{
+  margin-left: .5rem;
+
+}
+.cnttmp{
+  width: 100%;
+  margin-bottom: 2.5rem;
 }
 </style>

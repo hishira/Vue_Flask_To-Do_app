@@ -9,7 +9,12 @@
       </div>
       <div class="field">
         <div class="control padding-text-area">
-          <textarea id="mytextArea" class="textarea has-fixed-size" placeholder rows="7"></textarea>
+          <textarea
+            id="mytextArea"
+            class="textarea has-fixed-size"
+            placeholder
+            rows="7"
+          ></textarea>
         </div>
       </div>
       <div class="field ohoho">
@@ -27,67 +32,49 @@ export default {
   props: {
     ifUpdate: {
       Type: Boolean,
-      required: true
+      required: true,
     },
     stringToUpdate: {
       Type: String,
-      required: true
+      required: true,
     },
     taskId: {
-      Type: Number,
-      required: true
-    }
+      Type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      huj: []
+      huj: [],
     };
   },
   methods: {
     /* eslint-disable no-mixed-spaces-and-tabs */
-    updateTask() {
+    async updateTask() {
       let text = document.getElementById("mytextArea").value;
       console.log(text);
       console.log(this.$props.taskId);
       if (text === "") {
         this.$store.state.updateModalAppear = false;
       } else {
-        console.log(this.$props.taskId);
-        let vm = this;
-        fetch(`http://127.0.0.1:5000/update/${this.$props.taskId}`, {
+        let fetchobject = {
           method: "POST",
-          mode: "no-cors", // no-cors, *cors, same-origin
-          cache: "no-cache",
-          credentials: "same-origin", // include, *same-origin, omit
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(text)
-        });
-        let i = 0;
-        while (i < 10) {
-          let dataCC = [];
-          fetch("http://127.0.0.1:5000/")
-            .then(data => data.json())
-            .then(data => {
-              console.log(data);
-              dataCC = data;
-              vm.$store.state.allTask = data;
-            });
-          for (let i of dataCC) {
-            if (i["zadanie_id"] === this.$props.taskId) {
-              if (i["tresc_zadania"] === text) break;
-            }
-          }
-          i++;
-        }
+          body: JSON.stringify(text),
+        };
+        let url =`http://127.0.0.1:5000/update/${this.$props.taskId}`;
+        let data = await fetch(url,fetchobject).then((response) => response.json());
+
+        this.$store.state.allTask = data;
         this.$store.state.updateModalAppear = false;
       }
     },
     closeModal() {
       this.$store.state.updateModalAppear = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -96,19 +83,19 @@ export default {
   top: 20%;
   background-color: lightgrey;
   width: 50%;
-  height: 50%;
+  z-index: 200;
   border-radius: 5px;
 }
-
+.button {
+  margin-bottom: 1.5rem;
+}
 .dodaj {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
-
 .delete {
-  //align-self: center;
+  margin: 0.8rem;
 }
-
 .upper-panel {
   display: flex;
   justify-content: space-between;
@@ -130,7 +117,7 @@ textarea {
 }
 
 .padding-text-area {
-  padding: 0 0.5rem 0 0.5rem;
+  padding: 0.8rem;
   box-sizing: border-box;
 }
 </style>

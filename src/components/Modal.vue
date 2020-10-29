@@ -2,22 +2,13 @@
   <div class="center-modal">
     <section class="hero is-succes is-flex">
       <div v-show="loading">
-        <div
-          v-for="item in getTasks"
-          :key="item['_id']"
-          class="card is-medium"
-        >
+        <div v-for="item in getTasks" :key="item['_id']" class="card is-medium">
           <header class="card-header">
             <p class="card-header-title">Zadanie</p>
-            <a class="card-header-icon" aria-label="more-options">
-              <span class="icon">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </a>
           </header>
           <div class="card-content">
             <div class="content">
-              {{ item["tresc_zadania"] }}
+              {{ item['tresc_zadania'] }}
             </div>
           </div>
           <Buttons
@@ -67,18 +58,14 @@ export default {
     };
   },
   methods: {
-    deleteTask(taskId) {
+    async deleteTask(taskId) {
       console.log(taskId);
-      let vm = this;
-      fetch(`http://127.0.0.1:5000/removeTask/${taskId}`, {
+      let data = await fetch(`http://127.0.0.1:5000/removeTask/${taskId}`, {
         method: "POST",
-      })
-        .then((dane) => dane.json())
-        .then((dane) => {
-          vm.tasks = dane;
-          vm.$store.state.allTask = dane;
-          vm.$store.state.taskLength = dane.length - 1;
-        });
+      }).then((dane) => dane.json())
+      this.$data.tasks = data;
+      this.$store.state.allTask = data;
+      this.$store.state.taskLength = data.length - 1;
     },
     updatetask(taksID) {
       console.log(taksID);
@@ -89,16 +76,18 @@ export default {
       try {
         let data = await fetch("http://127.0.0.1:5000/", {
           method: "GET",
-        }).then((response) => response.json());
-        if(data === false) throw new Error("error")
+        }).then((response) =>{ 
+          console.log(response)
+          return response.json()});
+        if (data === false) throw new Error("error");
         console.log(data);
         this.$data.loading = true;
         this.$data.tasks = data;
         vm.$store.state.allTask = data;
         vm.$store.state.taskLength = data.length - 1;
       } catch (e) {
-          console.log(e)
-          this.$data.loading = false;
+        console.log(e);
+        this.$data.loading = false;
       }
     },
   },
@@ -109,12 +98,20 @@ export default {
 </script>
 <style scoped>
 .center-modal {
+  width: 100%;
+  padding: .5rem;
 }
 .hero {
   position: relative;
 }
 .card {
-  width: 25rem;
-  border-radius: 15px;
+  border-radius: 8px;
+  padding: .5rem;
+  margin-top: 1rem;
+}
+.card-header-title{
+  justify-content: center;
+}
+.card-content{
 }
 </style>
