@@ -2,7 +2,7 @@
   <section class="hero is-primary is-fullheight is-flex">
     <div class="hero-head">
       <nav class="navbar">
-        <div class="container">
+        <div class="">
           <div class="navbar-brand">
             <a class="navbar-item">
               <img
@@ -10,12 +10,6 @@
                 alt="Logo"
               />
             </a>
-          </div>
-          <div id="nav-menu" class="navbar-menu is-flex">
-            <div class="navbar-end">
-              <a class="navbar-item is-active">Home</a>
-              <a class="navbar-item">Other</a>
-            </div>
           </div>
         </div>
       </nav>
@@ -125,7 +119,6 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
   margin: 0;
-  border: 2px solid black;
 }
 .button-class {
   padding: 2rem;
@@ -139,5 +132,9 @@ export default {
 .footer-margin {
   padding: -1rem;
   box-sizing: border-box;
+}
+.navbar-item{
+  margin-left: .5rem;
+
 }
 </style>

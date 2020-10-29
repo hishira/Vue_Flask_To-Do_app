@@ -90,24 +90,23 @@ export default {
   top: 20%;
   background-color: lightgrey;
   width: 50%;
-  height: 40%;
   border-radius: 5px;
-  overflow: hidden;
+}
+.delete{
+  margin:.8rem;
 }
 
 .dodaj {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
-
-.delete {
-  //align-self: center;
-}
 .upper-panel {
   display: flex;
   justify-content: space-between;
 }
-
+.button{
+  margin-bottom: 1.5rem;
+}
 textarea {
   border: none;
 }
@@ -124,7 +123,7 @@ textarea {
 }
 
 .padding-text-area {
-  padding: 0 0.5rem 0 0.5rem;
+  padding: .8rem;
   box-sizing: border-box;
 }
 </style>

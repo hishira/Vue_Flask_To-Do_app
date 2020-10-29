@@ -9,7 +9,12 @@
       </div>
       <div class="field">
         <div class="control padding-text-area">
-          <textarea id="mytextArea" class="textarea has-fixed-size" placeholder rows="7"></textarea>
+          <textarea
+            id="mytextArea"
+            class="textarea has-fixed-size"
+            placeholder
+            rows="7"
+          ></textarea>
         </div>
       </div>
       <div class="field ohoho">
@@ -27,20 +32,20 @@ export default {
   props: {
     ifUpdate: {
       Type: Boolean,
-      required: true
+      required: true,
     },
     stringToUpdate: {
       Type: String,
-      required: true
+      required: true,
     },
     taskId: {
       Type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      huj: []
+      huj: [],
     };
   },
   methods: {
@@ -60,16 +65,16 @@ export default {
           cache: "no-cache",
           credentials: "same-origin", // include, *same-origin, omit
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(text)
+          body: JSON.stringify(text),
         });
         let i = 0;
         while (i < 10) {
           let dataCC = [];
           fetch("http://127.0.0.1:5000/")
-            .then(data => data.json())
-            .then(data => {
+            .then((data) => data.json())
+            .then((data) => {
               console.log(data);
               dataCC = data;
               vm.$store.state.allTask = data;
@@ -86,8 +91,8 @@ export default {
     },
     closeModal() {
       this.$store.state.updateModalAppear = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -96,19 +101,19 @@ export default {
   top: 20%;
   background-color: lightgrey;
   width: 50%;
-  height: 50%;
+
   border-radius: 5px;
 }
-
+.button {
+  margin-bottom: 1.5rem;
+}
 .dodaj {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
-
-.delete {
-  //align-self: center;
+.delete{
+  margin:.8rem;
 }
-
 .upper-panel {
   display: flex;
   justify-content: space-between;
@@ -130,7 +135,7 @@ textarea {
 }
 
 .padding-text-area {
-  padding: 0 0.5rem 0 0.5rem;
+  padding: 0.8rem;
   box-sizing: border-box;
 }
 </style>
