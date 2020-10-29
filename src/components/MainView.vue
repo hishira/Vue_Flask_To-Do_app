@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       taskToUpdate: "",
-      taskID: Number.MIN_VALUE,
+      taskID: "",
       lastSite: 0,
       currentSite: 1,
       maxTaskPerSite: 2
@@ -103,7 +103,7 @@ export default {
     },
     updateTask(taskId) {
       for (let i of this.$store.state.allTask) {
-        if (i["zadanie_id"] === taskId) {
+        if (i["_id"] === taskId) {
           this.taskToUpdate = i["tresc_zadania"];
           this.taskID = taskId;
           break;

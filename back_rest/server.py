@@ -45,15 +45,12 @@ def addTask():
     except Exception as e:
         return (str(e))
 
-'''
 @app.route('/update/<id>', methods=['POST'])
 def update(id):
     try:
         requestString = request.data.decode('UTF-8')
-        task = Task.query.filter_by(zadanie_id=id).first()
-        task.tresc_zadania = requestString
-        db.session().commit()
-        return "Update task"
+        tasks = mongo.db.Task
+        x = tasks.update_one({"_id":ObjectId(id)},{"$set":{'tresc_zadania':requestString}})
+        return  getTasksHelper(tasks.find())
     except Exception as e:
         return (str(e))
-'''
